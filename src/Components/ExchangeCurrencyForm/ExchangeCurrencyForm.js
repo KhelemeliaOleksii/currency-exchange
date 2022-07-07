@@ -5,6 +5,7 @@ import styles from './ExchangeCurrencyForm.module.css';
 import { useState } from "react";
 import { useEffect } from "react";
 import { currencies } from "../../Currencies/currencies";
+import currencyExchangeApi from '../../APIs/currencyApi';
 
 export default function ExchangeCurrencyForm() {
     const [rates, setRates] = useState([]);
@@ -14,31 +15,30 @@ export default function ExchangeCurrencyForm() {
     const [amountSecond, setAmountSecond] = useState(1);
 
     useEffect(() => {
-        const cortegeCurrency = [
-            { 'label': 'USD', 'rate': 0.03384 },
-            { 'label': 'GBP', 'rate': 0.028 },
-            { 'label': 'EUR', 'rate': 0.03 },
-            { 'label': 'PLN', 'rate': 0.015 },
-            { 'label': 'UAH', 'rate': 1 },
-            { 'label': 'CZK', 'rate': 0.02 }
+        // const cortegeCurrency = [
+        //     { 'label': 'USD', 'rate': 0.03384 },
+        //     { 'label': 'GBP', 'rate': 0.028 },
+        //     { 'label': 'EUR', 'rate': 0.03 },
+        //     { 'label': 'PLN', 'rate': 0.015 },
+        //     { 'label': 'UAH', 'rate': 1 },
+        //     { 'label': 'CZK', 'rate': 0.02 }
 
-        ]
-        setRates([...cortegeCurrency]);
-        // const currencyAvailable = [];
-        // currencies.map(({ label }) => currencyAvailable.push(label));
-        // currencyExchangeApi.baseRequest('UAH', currenciesLabelMain)
-        //     .then(({ rates }) => {
-        //         const cortegeCurrency = [{label:'UAH', rate:1}];
-        //         for (const prop in rates) {
-        //             cortegeCurrency.push({
-        //                 'label': [prop],     
-        //                 'rate' : rates[prop],
-        //             })
-        //         }
-        //         console.log(tmpArray);
-        //         setRates([...cortegeCurrency]);
-        //     })
-        //     .catch((error) => console.log(error));
+        // ]
+        // setRates([...cortegeCurrency]);
+        const currencyAvailable = [];
+        currencies.map(({ label }) => currencyAvailable.push(label));
+        currencyExchangeApi.baseRequest('UAH', currencyAvailable)
+            .then(({ rates }) => {
+                const cortegeCurrency = [{ label: 'UAH', rate: 1 }];
+                for (const prop in rates) {
+                    cortegeCurrency.push({
+                        'label': prop,
+                        'rate': rates[prop],
+                    })
+                }
+                setRates([...cortegeCurrency]);
+            })
+            .catch((error) => console.log(error));
 
     }, [])
 
