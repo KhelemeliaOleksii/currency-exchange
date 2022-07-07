@@ -4,7 +4,7 @@ import {
     IoMdArrowDropdown
 } from 'react-icons/io'
 import { useCallback, useState } from "react";
-import CurrencyDataList from "../CurrencyDataList/CurrencyDataList";
+import CurrencyDataList from "../CurrencyDataList";
 import { useEffect } from "react";
 import styles from './CurrencyTypeInput.module.css';
 import PropTypes from 'prop-types';
